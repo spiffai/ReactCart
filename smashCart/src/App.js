@@ -22,7 +22,7 @@ class App extends Component {
         id:uuid.v4(),
         name: 'Hoodie',
         image: 'https://images.smash.gg/images/tournament/10823/image-b4ddaf7c53ad2503c2330edda6831d20.jpg',
-        price: '60.00',
+        price: '0.00',
         qty: '1',
         type: 'Clothing',
         fulfiller: 'smash.gg',
@@ -54,21 +54,10 @@ class App extends Component {
     ]});
   }
 
-  getLineItemTypes(){
-    this.setState({
-      lineItemTypes: {
-        CLOTHING: 'Clothing',
-        BADGE: 'Badge',
-        DONATION: 'Donation'
-      }
-    })
-  }
-
   //lifecycle method - fires off when the component is re-rendered
   componentWillMount(){
     //this is also where you'd fetch data from an API -- or in componentDidMount
     this.getCart();
-    this.getLineItemTypes();
   }
 
   // componentDidMount(){
