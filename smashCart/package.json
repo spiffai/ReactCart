@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@smashgg/gg-components": "^2.0.3",
     "jquery": "^3.3.1",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",

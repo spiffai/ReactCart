@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import uuid from 'uuid';
 //import $ from 'jquery';
 import Cart from './Components/Cart';
+import AddDonation from './Components/AddDonation';
 import './App.css';
 
 class App extends Component {
@@ -10,26 +11,10 @@ class App extends Component {
     super();
     this.state = {
       cart: [],
-      lineItemTypes: {}
+      lineItemTypes: {},
+      editItemId: 0,
     }
   }
-
-  ////For API Call
-  // getCartFromAPI(){
-  //   $.ajax({
-  //     url: '',
-  //     dataType: 'json',
-  //     cache: false,
-  //     success: function(data){
-  //       this.setState({cart : data}, function(){
-  //         console.log(this.state);
-  //       });
-  //     }.bind(this),
-  //     error: function(xhr, status, err){
-  //       console.log(err);
-  //     }
-  //   });
-  // }
 
   getCart(){
     this.setState({cart:[
@@ -40,7 +25,22 @@ class App extends Component {
         price: '60.00',
         qty: '1',
         type: 'Clothing',
-        fulfiller: 'smash.gg'       
+        fulfiller: 'smash.gg',
+        size: 'Medium',
+        tag: 'w00t',
+        displayEditor: false       
+      },
+      {
+        id:uuid.v4(),
+        name: 'T-Shirt',
+        image: 'https://images.smash.gg/images/tournament/10823/image-b4ddaf7c53ad2503c2330edda6831d20.jpg',
+        price: '25.00',
+        qty: '1',
+        type: 'Clothing',
+        fulfiller: 'smash.gg',
+        size: 'Medium',
+        tag: 'w00t',
+        displayEditor: false       
       },
       {
         id:uuid.v4(),
@@ -49,7 +49,7 @@ class App extends Component {
         price: '30.00',
         qty: '1',
         type: 'Badge',
-        fulfiller: 'smash.gg'
+        fulfiller: 'smash.gg',
       }
     ]});
   }
@@ -71,10 +71,16 @@ class App extends Component {
     this.getLineItemTypes();
   }
 
-  ////For API Call
   // componentDidMount(){
-  //   this.getCartFromAPI();
+  //   this.getToDos(); //API
   // }
+  
+  handleAddDonation(donation){
+    console.log(donation);
+    let cart = this.state.cart;
+    cart.push(donation);
+    this.setState({cart:cart});
+  }
 
   handleDeleteCart(id){
     let cart = this.state.cart;
@@ -83,11 +89,35 @@ class App extends Component {
     this.setState({cart:cart});
   }
 
+  handleSubmitEditedCart(item){
+    console.log("App: "+item);
+    let cart = this.state.cart;
+    let index = cart.findIndex(x => x.id === item.id);
+    cart[index].qty = item.qty;
+    cart[index].size = item.size;
+    cart[index].tag = item.tag;
+    this.setState({cart:cart});
+  }
+
+  handleToggleEdit(item){
+    let cart = this.state.cart;
+    let index = cart.findIndex(x => x.id === item.id);
+    for(var i=0;i<cart.length;i++){
+      if(i != index){
+        cart[i].displayEditor = false;
+        this.setState({cart:cart});
+      }      
+    }
+      cart[index].displayEditor = item.displayEditor == true? false : true;
+      this.setState({cart:cart}); 
+  }
+
   render() {
     console.log(this.state);
     return (
-      <div className="App">
-        <Cart cart={this.state.cart} onDelete={this.handleDeleteCart.bind(this)} />
+      <div className="App">    
+      <Cart cart={this.state.cart} onDelete={this.handleDeleteCart.bind(this)} onSubmitEdit={this.handleSubmitEditedCart.bind(this)} onToggleEdit={this.handleToggleEdit.bind(this)}/>
+      <AddDonation cart={this.state.cart} addDonation={this.handleAddDonation.bind(this)}/>
       </div>
     );
   }
