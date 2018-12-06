@@ -55,7 +55,7 @@ class LineItem extends Component {
                   <SpacedGroup className="demoSpacedGroup demoHrz" direction="horizontal">
                     <div>
                       <label>Qty.</label><br/>
-                      <input id={qtyFieldId} type ="text" ref="qty" />
+                      <input id={qtyFieldId} type ="text" ref="qty" value={this.props.cart.qty} />
                     </div>    
                     <div>
                     <label>Size</label><br/>
@@ -65,7 +65,7 @@ class LineItem extends Component {
                     </div>        
                     <div>
                       <label>Custom Tag</label><br/>
-                      <input id={tagFieldId} type="text" ref="tag" />
+                      <input id={tagFieldId} type="text" ref="tag" value={this.props.cart.tag} />
                     </div>              
                   </SpacedGroup>   
                   <SpacedGroup className="demoSpacedGroup demoHrz" direction="horizontal">
@@ -76,6 +76,24 @@ class LineItem extends Component {
                 ) : ("")}     
             </div>
             <GridCell size={1}><strong>${this.props.cart.price}</strong></GridCell>
+          </Grid>
+        </div>     
+      );
+    }else if(this.props.cart.type === "Donation"){
+      return (
+        <div className="Cart">      
+          <Grid hasGutter>
+            <GridCell size={1}><ImageIcon alt="The Testing of Pelham 123..." url={this.props.cart.image} rounded size="xs" /></GridCell>
+            <div>
+              <strong>{this.props.cart.name}</strong>
+              <SpacedGroup className="demoSpacedGroup demoHrz" direction="horizontal">
+                  <div>Qty. {this.props.cart.qty} &#9679;</div>
+                  <div><PlainButton onClick={this.deleteCart.bind(this, this.props.cart.id)} type="destructive">Remove</PlainButton></div>            
+              </SpacedGroup>     
+              <span style={{color: 'gray'}} className="detail-text"><small>Fulfilled by {this.props.cart.fulfiller}</small></span>              
+            </div>
+            <GridCell size={1}><strong>${this.props.cart.price}</strong></GridCell>
+            {/* <div><Button label="Remove" onClick={this.deleteCart.bind(this, this.props.cart.id)} type="destructive" size="xs"/></div> */}
           </Grid>
         </div>     
       );
